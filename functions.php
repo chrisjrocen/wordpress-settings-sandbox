@@ -168,4 +168,73 @@ if(get_option('show_header')) { ?>
 <div id="footer">
 <p>&copy; <?php echo date('Y'); ?> All Rights Reserved.</p>
 </div><!-- /#footer -->
-<?php } // end if ?>
+<?php } // end if 
+
+
+
+//MENUs
+
+function sandbox_create_menu_page() {
+
+	add_menu_page(
+	'Sandbox Options',          // The title to be displayed on the corresponding page for this menu
+	'Sandbox',                  // The text to be displayed for this actual menu item
+	'administrator',            // Which type of users can see this menu
+	'sandbox',                  // The unique ID - that is, the slug - for this menu item
+	'sandbox_menu_page_display',// The name of the function to call when rendering the menu for this page
+	''
+	);
+} // end sandbox_create_menu_page
+	add_action('admin_menu', 'sandbox_create_menu_page');
+
+function sandbox_menu_page_display() {
+
+	// Create a header in the default WordPress 'wrap' container
+	$html = '<div class="wrap"> 
+	<h2>Sandbox</h2>
+	</div>';
+
+	// Send the markup to the browser
+	echo $html;
+		
+} // end sandbox_menu_page_display
+
+
+
+function sandbox_example_theme_menu() {
+
+	add_theme_page(
+	'Sandbox Theme',            // The title to be displayed in the browser window for this page.
+	'Sandbox Theme',            // The text to be displayed for this menu item
+	'administrator',            // Which type of users can see this menu item
+	'sandbox_theme_options',    // The unique ID - that is, the slug - for this menu item
+	'sandbox_theme_display'     // The name of the function to call when rendering the page for this menu
+	);
+	
+	} // end sandbox_example_theme_menu
+	add_action('admin_menu', 'sandbox_example_theme_menu');
+
+
+function sandbox_theme_display() {
+
+	?>
+	<!-- Create a header in the default WordPress 'wrap' container -->
+	<div class="wrap">
+	
+	<!-- Add the icon to the page -->
+	<div id="icon-themes" class="icon32"></div>
+	<h2>Sandbox Theme Options</h2>
+	
+	<!-- Make a call to the WordPress function for rendering errors when settings are saved. -->
+	<?php settings_errors(); ?>
+	
+	<!-- Create the form that will be used to render our options -->
+	<form method="post" action="options.php">
+	<?php settings_fields( 'general' ); ?>
+	<?php do_settings_sections( 'general' ); ?>           
+	<?php submit_button(); ?>
+	</form>
+	
+	</div><!-- /.wrap -->
+	<?php
+	} // end sandbox_theme_display
